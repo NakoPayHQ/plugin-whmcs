@@ -5,7 +5,7 @@
   "category": "payments",
   "license": "MIT",
   "description": "Accept Bitcoin payments through NakoPay.",
-  "version": "0.2.0",
+  "version": "0.1.0",
   "author": {
     "name": "NakoPay",
     "url": "https://nakopay.com"
