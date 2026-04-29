@@ -1,0 +1,21 @@
+{
+  "schema": "1.0",
+  "type": "gateways",
+  "name": "nakopay",
+  "category": "payments",
+  "license": "MIT",
+  "description": "Accept Bitcoin payments through NakoPay.",
+  "version": "0.2.0",
+  "author": {
+    "name": "NakoPay",
+    "url": "https://nakopay.com"
+  },
+  "support": {
+    "email": "support@nakopay.com",
+    "url": "https://nakopay.com/support"
+  },
+  "requirements": {
+    "phpVersion": "8.0",
+    "whmcsVersion": "8.0"
+  }
+}
