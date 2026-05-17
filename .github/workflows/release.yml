@@ -1,0 +1,39 @@
+name: Release plugin-whmcs
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: No internal URLs
+        run: bash ./scripts/check-no-internal-urls.sh ./
+      - name: Stage WHMCS install layout
+        run: |
+          # Final layout admins extract into <whmcs>/ root:
+          #   modules/gateways/nakopay.php          (entry)
+          #   modules/gateways/nakopay/...          (helper class, lang, assets)
+          #   modules/gateways/callback/nakopay.php (webhook)
+          mkdir -p build/modules/gateways/callback
+          cp     ./nakopay.php                              build/modules/gateways/nakopay.php
+          cp -R  ./nakopay                                  build/modules/gateways/nakopay
+          cp     ./modules/gateways/callback/nakopay.php    build/modules/gateways/callback/nakopay.php
+          find build -type d -name node_modules -prune -exec rm -rf {} +
+          find build -type d -name vendor       -prune -exec rm -rf {} +
+          find build -type d -name .git         -prune -exec rm -rf {} +
+      - name: Build zip
+        run: |
+          cd build
+          zip -r ../nakopay-whmcs.zip modules
+      - name: GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: nakopay-whmcs.zip
+          generate_release_notes: true
+          name: WHMCS ${{ github.ref_name }}
